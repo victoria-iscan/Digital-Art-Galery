@@ -2,20 +2,21 @@ let cam;
 let s = 40
 let x = 0
 let y = 6
-let z = 60
+let z = 3200
 let delta = 0.01
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
 	cam = createCamera();
 }
+	
 
 function draw() {
 	frameRate (100)
 	movex();
 	movey();
   movez();
-	
 	background(0);
 	cam.setPosition(x, y, z);
 	rotateX(900.1);
@@ -23,7 +24,6 @@ function draw() {
 	strokeWeight (1)
 	fill(0);
   box(1210, 7000, 1200)
-	
 	makeimagesleft ();
 	makeimagesright ();
 }
@@ -65,11 +65,12 @@ function preload() {
 	peunut = loadImage('peunut.jpg');
 	deer = loadImage('deer.jpg');
 	squirell = loadImage('squirell.jpg');
+	skull = loadImage('skull.jpg');
 }
 
 function makeimagesleft() {
 	rotateY(300)
-	translate (400, 0, 590)
+	translate (350, 0, 590)
 	rotate(1.6)
 	
 	image(eye, 0, 0);
@@ -86,30 +87,35 @@ function makeimagesleft() {
 	
 	image(bunny,2000,0)
 	bunny.resize(500,700)
+	
+	image(cat2,-3000,0)
+	cat2.resize(500,700)
 }
 
 function makeimagesright() {
 	translate (400, 0, -1160)
 	
-	image(brownie, 0, 0);
+	image(brownie, -400, 0);
 	brownie.resize(500, 700);
 	
-	image(peunut, -1000, 0);
+	image(peunut, -1400, 0);
 	peunut.resize(500, 700);
 	
-	image(deer,-2000,0)
+	image(deer,-2400,0)
 	deer.resize(500,700)
 	
-	image(billie,1000,0)
+	image(billie, 600, 0,0)
 	billie.resize(500,700)
 	
-	image(squirell,2000,0)
+	image(squirell,1600,0)
 	squirell.resize(500,700)
 	
-	image(cat1,-3000,0)
+	image(cat1,-3400,0)
 	cat1.resize(500,700)
-
-	image(cat2,-4000,0)
-	cat2.resize(500,700)
+	
+		rotateY(589)
+		translate (100, 70, 3830)
+	image(skull,400,0)
+	skull.resize(500,700)
 }
 
