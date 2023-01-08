@@ -2,7 +2,7 @@ let cam;
 let s = 40
 let x = 0
 let y = 6
-let z = 3200
+let z = 800
 let delta = 0.01
 
 
@@ -26,6 +26,9 @@ function draw() {
   box(1210, 7000, 1200)
 	makeimagesleft ();
 	makeimagesright ();
+	makeframesright();
+	makeframesleft();
+
 }
 
 function movez () {
@@ -95,6 +98,8 @@ function makeimagesleft() {
 function makeimagesright() {
 	translate (400, 0, -1160)
 	
+	
+	
 	image(brownie, -400, 0);
 	brownie.resize(500, 700);
 	
@@ -113,9 +118,57 @@ function makeimagesright() {
 	image(cat1,-3400,0)
 	cat1.resize(500,700)
 	
-		rotateY(589)
-		translate (100, 70, 3830)
+	rotateY(589)
+	translate (100, 70, 3830)
 	image(skull,400,0)
 	skull.resize(500,700)
 }
 
+function makeframesright() {
+	noFill();
+  stroke(255);
+	strokeWeight(40); // Default
+	rotateY(1.6)
+	translate(0, 0, 79)
+
+	rect(450, -50, 500, 700);
+	
+			translate(0, 0, -20)
+
+	rect(1450, -60, 500, 700);
+	
+		translate(0, 0, -25)
+
+	rect(2450, -60, 500, 700);
+	
+	rect(3440, -60, 500, 700);
+	
+			translate(0, 0, -29)
+
+	rect(4450, -60, 500, 700);
+	
+				translate(0, 0, -20)
+
+	rect(5450, -60, 500, 700);
+}
+
+
+function makeframesleft() {
+	noFill();
+  stroke(255);
+	strokeWeight(40); // Default
+	rotateY(3.157)
+	translate(-6450, 0, -1230)
+
+	rect(520, -50, 500, 700);
+	
+	rect(1520, -60, 500, 700);
+	
+	rect(2500, -60, 500, 700);
+	
+	rect(3490, -60, 500, 700);
+	
+	rect(4490, -60, 500, 700);
+	
+	rect(5490, -64, 500, 700);
+}
