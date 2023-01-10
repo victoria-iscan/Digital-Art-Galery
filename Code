@@ -4,16 +4,21 @@ let x = 0
 let y = 6
 let z = 800
 let delta = 0.01
+var r 
+var g
+var b
+var a
+
 
 
 function setup() {
+	frameRate (100)
   createCanvas(windowWidth, windowHeight, WEBGL);
 	cam = createCamera();
 }
 	
 
 function draw() {
-	frameRate (100)
 	movex();
 	movey();
   movez();
@@ -28,6 +33,14 @@ function draw() {
 	makeimagesright ();
 	makeframesright();
 	makeframesleft();
+	
+	r = random(255); // r is a random number between 0 - 255
+  g = random(100,200); // g is a random number betwen 100 - 200
+  b = random(100); // b is a random number between 0 - 100
+  a = random(200,255); // a is a random number between 200 - 255
+	
+	cam.pan(-movedX * 0.002);
+  cam.tilt(movedY * 0.002);
 
 }
 
@@ -62,10 +75,10 @@ function preload() {
 	tiger = loadImage('tiger.jpg');
 	bunny = loadImage('bunny.jpg');
 	billie = loadImage('Billie.jpg');
-	brownie = loadImage('brownie.jpg');
+	p2 = loadImage('brownie.jpg');
 	cat1 = loadImage('cat1.jpg');
 	cat2 = loadImage('cat2.jpg');
-	peunut = loadImage('peunut.jpg');
+	p1 = loadImage('peunut.jpg');
 	deer = loadImage('deer.jpg');
 	squirell = loadImage('squirell.jpg');
 	skull = loadImage('skull.jpg');
@@ -98,13 +111,11 @@ function makeimagesleft() {
 function makeimagesright() {
 	translate (400, 0, -1160)
 	
+	image(p2, -400, 0);
+	p2.resize(500, 700);
 	
-	
-	image(brownie, -400, 0);
-	brownie.resize(500, 700);
-	
-	image(peunut, -1400, 0);
-	peunut.resize(500, 700);
+	image(p1, -1400, 0);
+	p1.resize(500, 700);
 	
 	image(deer,-2400,0)
 	deer.resize(500,700)
@@ -126,28 +137,24 @@ function makeimagesright() {
 
 function makeframesright() {
 	noFill();
-  stroke(255);
+  stroke(r, g, b, a);
 	strokeWeight(40); // Default
 	rotateY(1.6)
 	translate(0, 0, 79)
 
 	rect(450, -50, 500, 700);
-	
-			translate(0, 0, -20)
+	translate(0, 0, -20)
 
 	rect(1450, -60, 500, 700);
-	
-		translate(0, 0, -25)
+	translate(0, 0, -25)
 
 	rect(2450, -60, 500, 700);
 	
 	rect(3440, -60, 500, 700);
-	
-			translate(0, 0, -29)
+	translate(0, 0, -29)
 
 	rect(4450, -60, 500, 700);
-	
-				translate(0, 0, -20)
+	translate(0, 0, -20)
 
 	rect(5450, -60, 500, 700);
 }
@@ -155,14 +162,14 @@ function makeframesright() {
 
 function makeframesleft() {
 	noFill();
-  stroke(255);
+  stroke(r, g, b, a);
 	strokeWeight(40); // Default
 	rotateY(3.157)
 	translate(-6450, 0, -1230)
 
-	rect(520, -50, 500, 700);
+	rect(509, -50, 500, 700);
 	
-	rect(1520, -60, 500, 700);
+	rect(1510, -60, 500, 700);
 	
 	rect(2500, -60, 500, 700);
 	
