@@ -1,3 +1,5 @@
+let pX=0,pY=0,locked=false;
+
 let cam;
 let s = 40
 let x = 0
@@ -10,13 +12,11 @@ var b
 var a
 
 
-
 function setup() {
 	frameRate (100)
   createCanvas(windowWidth, windowHeight, WEBGL);
 	cam = createCamera();
 }
-	
 
 function draw() {
 	movex();
@@ -42,6 +42,12 @@ function draw() {
 	cam.pan(-movedX * 0.002);
   cam.tilt(movedY * 0.002);
 
+	if (pX==0&&pY==0){
+		pX=mouseX;
+		pY=mouseY;
+	}
+	pX=pX+movedX;
+	pY=pY+movedY;
 }
 
 function movez () {
@@ -178,4 +184,18 @@ function makeframesleft() {
 	rect(4490, -60, 500, 700);
 	
 	rect(5490, -64, 500, 700);
+}
+
+function mouseClicked(){
+	pX=mouseX;
+	pY=mouseY;
+	if(locked==false){
+		locked=true;
+		requestPointerLock();
+	} else {
+		exitPointerLock();
+		pX=mouseX;
+		pY=mouseY;
+	}
+	
 }
