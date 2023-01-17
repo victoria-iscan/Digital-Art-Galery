@@ -17,7 +17,7 @@ I will incorporate the tools I learned from different projects throughout this c
  Final touches, colors, and sounds for buttons - Jan 20
 
 
-## pseudocode
+## Pseudocode
 let camera
 let x
 let y
