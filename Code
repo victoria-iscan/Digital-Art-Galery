@@ -1,10 +1,11 @@
-let pX=0,pY=0,locked=false;
+let pX=0,pY=0,locked=false; //set locked to false when nothing is happening
+
 
 let cam;
 let s = 40
 let x = 0
 let y = 6
-let z = 800
+let z = 3000
 let delta = 0.01
 var r 
 var g
@@ -15,7 +16,7 @@ var a
 function setup() {
 	frameRate (100)
   createCanvas(windowWidth, windowHeight, WEBGL);
-	cam = createCamera();
+	cam = createCamera(); //create the camera
 }
 
 function draw() {
@@ -23,27 +24,25 @@ function draw() {
 	movey();
   movez();
 	background(0);
-	cam.setPosition(x, y, z);
+	cam.setPosition(x, y, z); //set the camera position
 	rotateX(900.1);
 	stroke(255);
 	strokeWeight (1)
 	fill(0);
-  box(1210, 7000, 1200)
-	makeimagesleft ();
-	makeimagesright ();
-	makeframesright();
-	makeframesleft();
+  box(1210, 7000, 1200) //make the room
+	makeLeftPhotos();
+	makeRightPhotos();
 	
 	r = random(255); // r is a random number between 0 - 255
   g = random(100,200); // g is a random number betwen 100 - 200
   b = random(100); // b is a random number between 0 - 100
   a = random(200,255); // a is a random number between 200 - 255
 	
-	cam.pan(-movedX * 0.002);
-  cam.tilt(movedY * 0.002);
+	cam.pan(-movedX * 0.003); //create the camera panning
+  cam.tilt(movedY * 0.003); // and the camera tilting
 
 	if (pX==0&&pY==0){
-		pX=mouseX;
+		pX=mouseX;//make the screen follow the mouse
 		pY=mouseY;
 	}
 	pX=pX+movedX;
@@ -51,28 +50,29 @@ function draw() {
 }
 
 function movez () {
-	if (keyIsDown(ENTER)) {
-	z = z - 40
+	if (keyIsDown(UP_ARROW)) {
+	z = z - 45
 }
-else if (keyIsDown(SHIFT)) {
-  z = z + 40
+else if (keyIsDown(DOWN_ARROW)) {
+  z = z + 45
 }}
 
 function movey() {
-  if (keyIsDown(UP_ARROW)) {
-  y = y - 40
+  if (keyIsDown(ENTER)) {
+  y = y - 45
 }
-else if (keyIsDown(DOWN_ARROW)){
-  y = y +40
+else if (keyIsDown(SHIFT)){
+  y = y +45
 }}
 
 function movex() {
   if (keyIsDown(LEFT_ARROW)) {
-  x = x - 40
+  x = x - 45
 }
 else if (keyIsDown(RIGHT_ARROW)){
-  x = x +40
+  x = x +45
 }}
+	
 
 function preload() {
   tay = loadImage('taylor.jpg');
@@ -80,7 +80,7 @@ function preload() {
 	wolf = loadImage('wolf.jpg');
 	tiger = loadImage('tiger.jpg');
 	bunny = loadImage('bunny.jpg');
-	billie = loadImage('Billie.jpg');
+	bil = loadImage('Billie.jpg');
 	p2 = loadImage('brownie.jpg');
 	cat1 = loadImage('cat1.jpg');
 	cat2 = loadImage('cat2.jpg');
@@ -90,88 +90,53 @@ function preload() {
 	skull = loadImage('skull.jpg');
 }
 
-function makeimagesleft() {
-	rotateY(300)
-	translate (350, 0, 590)
+function makeLeftPhotos() {
+	translate (550, -3500, 400)
+	rotateY(300.01)
 	rotate(1.6)
-	
-	image(eye, 0, 0);
+
+  image(eye, 3470, -70);
 	eye.resize(500, 700);
-	
-	image(wolf, -1000, 0);
+
+	image(wolf, 4460, -70);
 	wolf.resize(500, 700);
 	
-	image(tay,-2000,0)
+	image(tay,500,-70)
 	tay.resize(500,700)
 	
-	image(tiger,1000,0)
+	image(tiger,2480,-70)
 	tiger.resize(500,700)
 	
-	image(bunny,2000,0)
+	image(bunny,5450,-70)
 	bunny.resize(500,700)
 	
-	image(cat2,-3000,0)
+	image(cat2,1490,-70)
 	cat2.resize(500,700)
-}
-
-function makeimagesright() {
-	translate (400, 0, -1160)
 	
-	image(p2, -400, 0);
-	p2.resize(500, 700);
-	
-	image(p1, -1400, 0);
-	p1.resize(500, 700);
-	
-	image(deer,-2400,0)
-	deer.resize(500,700)
-	
-	image(billie, 600, 0,0)
-	billie.resize(500,700)
-	
-	image(squirell,1600,0)
-	squirell.resize(500,700)
-	
-	image(cat1,-3400,0)
-	cat1.resize(500,700)
-	
-	rotateY(589)
-	translate (100, 70, 3830)
-	image(skull,400,0)
-	skull.resize(500,700)
-}
-
-function makeframesright() {
 	noFill();
   stroke(r, g, b, a);
-	strokeWeight(40); // Default
-	rotateY(1.6)
-	translate(0, 0, 79)
+	strokeWeight(40);
 
 	rect(450, -50, 500, 700);
-	translate(0, 0, -20)
-
+	
 	rect(1450, -60, 500, 700);
-	translate(0, 0, -25)
 
 	rect(2450, -60, 500, 700);
 	
 	rect(3440, -60, 500, 700);
-	translate(0, 0, -29)
 
 	rect(4450, -60, 500, 700);
-	translate(0, 0, -20)
 
 	rect(5450, -60, 500, 700);
 }
 
 
-function makeframesleft() {
+function makeRightPhotos() {
 	noFill();
   stroke(r, g, b, a);
-	strokeWeight(40); // Default
+	strokeWeight(40);
 	rotateY(3.157)
-	translate(-6450, 0, -1230)
+	translate(-6450, 0, -1180)
 
 	rect(509, -50, 500, 700);
 	
@@ -184,6 +149,27 @@ function makeframesleft() {
 	rect(4490, -60, 500, 700);
 	
 	rect(5490, -64, 500, 700);
+	
+	image(p2, 6600, -70);
+	p2.resize(500, 700);
+	
+	image(p1, 5500, -70);
+	p1.resize(500, 700);
+	
+	image(deer,4500,-70)
+	deer.resize(500,700)
+	
+	image(bil, 500, -70)
+	bil.resize(500,700)
+	
+	image(squirell,1500,-70)
+	squirell.resize(500,700)
+	
+	image(cat1,2500,-70)
+	cat1.resize(500,700)
+	
+	image(skull,3500,-70)
+	skull.resize(500,700)
 }
 
 function mouseClicked(){
@@ -197,5 +183,4 @@ function mouseClicked(){
 		pX=mouseX;
 		pY=mouseY;
 	}
-	
 }
