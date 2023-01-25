@@ -1,186 +1,120 @@
-let pX=0,pY=0,locked=false; //set locked to false when nothing is happening
+let gallery;
+let photos;
+const SHOW_GALLERY = 0;
+const SHOW_PHOTO = 1;
+const SHOW_ARTIST = 2;
+let selectedPhoto;
+let currentState = SHOW_GALLERY;
+const horizspace = 300
+const verticspace = 200
+const ncol = 5
+const i = 300
 
 
-let cam;
-let s = 40
-let x = 0
-let y = 6
-let z = 3000
-let delta = 0.01
-var r 
-var g
-var b
-var a
+class Gallery {
+  constructor(photos) {
+    this.photos = photos;
+  }
+}
+
+class Photo {
+  constructor(name, image, dateCreated, artist, description) {
+    this.name = name;
+    this.image = image;
+    this.dateCreated = dateCreated;
+    this.artist = artist;
+    this.description = description;
+  }
+}
+
+class Artist {
+  constructor(name, image, bio, birthday) {
+    this.name = name;
+    this.image = image;
+    this.bio = bio;
+    this.birthday = birthday;
+  }
+}
+
+
+
+function preload() {
+  DaVinci = new Artist('Leonardo Da Vinci', loadImage('Leonardo.jpeg'), 'An italian painter', 'born in 1452');
+	VanGogh = new Artist('Van Gogh', loadImage('vangogh.jpeg'), 'A dutch impressionist painter', 'born in 1853');
+	JohannesVermeer = new Artist('Johannes Vermeer', loadImage('johannes.webp'), 'A moderately succesful dutch artist', 'born in 1632');
+	Victoria = new Artist('Victoria Iscan', loadImage('vicky.jpg'), 'An eighth grade student at WCI', 'born in 2008');
+  photos = [
+    new Photo('Mona Lisa', loadImage('monalisa.jpeg'), 'Made in 1503', DaVinci, 'The worlds most famous, recognizable, and copied artwork'),
+		new Photo('Café terrace at night', loadImage('Cafe.jpeg'), 'Made in 1888', VanGogh, 'An oil painting of a real scene that Van Gogh visited'),
+		new Photo('Pearl Earing', loadImage('earring.jpg'), 'Made in 1665', JohannesVermeer, 'A portrait of a lady wearing a pearl earring'),
+		new Photo('Sunflowers', loadImage('sunflower.jpg'), 'Made in 1888', VanGogh, 'A painting of a sunflowers made with oil paint'),
+		new Photo('Skull', loadImage('skull.jpg'), 'Made in 2018', Victoria, 'A pencil drawing of a skull'),
+		
+  ];
+	
+
+  gallery = new Gallery(photos);
+}
+
 
 
 function setup() {
-	frameRate (100)
-  createCanvas(windowWidth, windowHeight, WEBGL);
-	cam = createCamera(); //create the camera
+	createCanvas(windowWidth, windowHeight);
+	background(100);
+	frameRate(5);
 }
 
 function draw() {
-	movex();
-	movey();
-  movez();
-	background(0);
-	cam.setPosition(x, y, z); //set the camera position
-	rotateX(900.1);
-	stroke(255);
-	strokeWeight (1)
-	fill(0);
-  box(1210, 7000, 1200) //make the room
-	makeLeftPhotos();
-	makeRightPhotos();
-	
-	r = random(255); // r is a random number between 0 - 255
-  g = random(100,200); // g is a random number betwen 100 - 200
-  b = random(100); // b is a random number between 0 - 100
-  a = random(200,255); // a is a random number between 200 - 255
-	
-	cam.pan(-movedX * 0.003); //create the camera panning
-  cam.tilt(movedY * 0.003); // and the camera tilting
-
-	if (pX==0&&pY==0){
-		pX=mouseX;//make the screen follow the mouse
-		pY=mouseY;
-	}
-	pX=pX+movedX;
-	pY=pY+movedY;
-}
-
-function movez () {
-	if (keyIsDown(UP_ARROW)) {
-	z = z - 45
-}
-else if (keyIsDown(DOWN_ARROW)) {
-  z = z + 45
-}}
-
-function movey() {
-  if (keyIsDown(ENTER)) {
-  y = y - 45
-}
-else if (keyIsDown(SHIFT)){
-  y = y +45
-}}
-
-function movex() {
-  if (keyIsDown(LEFT_ARROW)) {
-  x = x - 45
-}
-else if (keyIsDown(RIGHT_ARROW)){
-  x = x +45
-}}
-	
-
-function preload() {
-  tay = loadImage('taylor.jpg');
-	eye = loadImage('eye.jpg');
-	wolf = loadImage('wolf.jpg');
-	tiger = loadImage('tiger.jpg');
-	bunny = loadImage('bunny.jpg');
-	bil = loadImage('Billie.jpg');
-	p2 = loadImage('brownie.jpg');
-	cat1 = loadImage('cat1.jpg');
-	cat2 = loadImage('cat2.jpg');
-	p1 = loadImage('peunut.jpg');
-	deer = loadImage('deer.jpg');
-	squirell = loadImage('squirell.jpg');
-	skull = loadImage('skull.jpg');
-}
-
-function makeLeftPhotos() {
-	translate (550, -3500, 400)
-	rotateY(300.01)
-	rotate(1.6)
-
-  image(eye, 3470, -70);
-	eye.resize(500, 700);
-
-	image(wolf, 4460, -70);
-	wolf.resize(500, 700);
-	
-	image(tay,500,-70)
-	tay.resize(500,700)
-	
-	image(tiger,2480,-70)
-	tiger.resize(500,700)
-	
-	image(bunny,5450,-70)
-	bunny.resize(500,700)
-	
-	image(cat2,1490,-70)
-	cat2.resize(500,700)
-	
-	noFill();
-  stroke(r, g, b, a);
-	strokeWeight(40);
-
-	rect(450, -50, 500, 700);
-	
-	rect(1450, -60, 500, 700);
-
-	rect(2450, -60, 500, 700);
-	
-	rect(3440, -60, 500, 700);
-
-	rect(4450, -60, 500, 700);
-
-	rect(5450, -60, 500, 700);
+	switch(currentState) {
+    case SHOW_GALLERY:
+      showGallery();
+      break;
+    case SHOW_PHOTO:
+      showPhoto();
+      break;
+    case SHOW_ARTIST:
+      showArtist();
+      break;
+  }
 }
 
 
-function makeRightPhotos() {
-	noFill();
-  stroke(r, g, b, a);
-	strokeWeight(40);
-	rotateY(3.157)
-	translate(-6450, 0, -1180)
-
-	rect(509, -50, 500, 700);
-	
-	rect(1510, -60, 500, 700);
-	
-	rect(2500, -60, 500, 700);
-	
-	rect(3490, -60, 500, 700);
-	
-	rect(4490, -60, 500, 700);
-	
-	rect(5490, -64, 500, 700);
-	
-	image(p2, 6600, -70);
-	p2.resize(500, 700);
-	
-	image(p1, 5500, -70);
-	p1.resize(500, 700);
-	
-	image(deer,4500,-70)
-	deer.resize(500,700)
-	
-	image(bil, 500, -70)
-	bil.resize(500,700)
-	
-	image(squirell,1500,-70)
-	squirell.resize(500,700)
-	
-	image(cat1,2500,-70)
-	cat1.resize(500,700)
-	
-	image(skull,3500,-70)
-	skull.resize(500,700)
+function showGallery() {
+  gallery.photos.forEach((photo, i) => {
+    image(photo.image, 20 + (i % ncol)*horizspace, 60, 140, 200);
+    let button = createButton(photo.name);
+    button.position(20 + (i % ncol)*horizspace, 20)
+    button.mousePressed(() => {photoSelected(photo)})
+  })
 }
 
-function mouseClicked(){
-	pX=mouseX;
-	pY=mouseY;
-	if(locked==false){
-		locked=true;
-		requestPointerLock();
-	} else {
-		exitPointerLock();
-		pX=mouseX;
-		pY=mouseY;
-	}
+function photoSelected(photo) {
+  selectedPhoto = photo;
+  currentState = SHOW_PHOTO;
+}
+
+function showPhoto() {
+	clear();
+	background (100)
+	text(selectedPhoto.description,170, 350);
+	text(selectedPhoto.dateCreated, 170, 370)
+  image(selectedPhoto.image, 200, 120, 140, 200)
+  let button = createButton(selectedPhoto.artist.name)
+  button.position(170, 380)
+  button.mousePressed(artistClicked)
+	
+}
+
+function artistClicked() {
+  currentState = SHOW_ARTIST;
+}
+
+function showArtist() {
+  let artist = selectedPhoto.artist;
+	clear();
+	background(100)
+  image(artist.image,170 , 110, 120, 200);
+  text(artist.name, 170, 320);
+	text(artist.bio, 170, 340);
+	text(artist.birthday, 170, 360);
 }
