@@ -9,7 +9,16 @@ const horizspace = 300
 const verticspace = 200
 const ncol = 5
 const i = 300
+let w = 255
+let bl = 0
+let p = 255
+let l = 0
+let mySound;
 
+
+function preload() {
+  mySound = loadSound('mixkit-arcade-game-jump-coin-216.wav');
+}
 
 class Gallery {
   constructor(photos) {
@@ -36,32 +45,25 @@ class Artist {
   }
 }
 
-
-
 function preload() {
-  DaVinci = new Artist('Leonardo Da Vinci', loadImage('Leonardo.jpeg'), 'An italian painter', 'born in 1452');
-	VanGogh = new Artist('Van Gogh', loadImage('vangogh.jpeg'), 'A dutch impressionist painter', 'born in 1853');
-	JohannesVermeer = new Artist('Johannes Vermeer', loadImage('johannes.webp'), 'A moderately succesful dutch artist', 'born in 1632');
-	Victoria = new Artist('Victoria Iscan', loadImage('vicky.jpg'), 'An eighth grade student at WCI', 'born in 2008');
+    DaVinci = new Artist('Leonardo Da Vinci', loadImage('Leonardo.jpeg'), 'An italian painter', 'born in 1452');
+	  VanGogh = new Artist('Van Gogh', loadImage('vangogh.jpeg'), 'A dutch impressionist painter', 'born in 1853');
+	  JohannesVermeer = new Artist('Johannes Vermeer', loadImage('johannes.webp'), 'A moderately succesful dutch artist', 'born in 1632');
+	  Victoria = new Artist('Victoria Iscan', loadImage('vicky.jpg'), 'An eighth grade student at WCI', 'born in 2008');
   photos = [
     new Photo('Mona Lisa', loadImage('monalisa.jpeg'), 'Made in 1503', DaVinci, 'The worlds most famous, recognizable, and copied artwork'),
 		new Photo('Café terrace at night', loadImage('Cafe.jpeg'), 'Made in 1888', VanGogh, 'An oil painting of a real scene that Van Gogh visited'),
 		new Photo('Pearl Earing', loadImage('earring.jpg'), 'Made in 1665', JohannesVermeer, 'A portrait of a lady wearing a pearl earring'),
 		new Photo('Sunflowers', loadImage('sunflower.jpg'), 'Made in 1888', VanGogh, 'A painting of a sunflowers made with oil paint'),
 		new Photo('Skull', loadImage('skull.jpg'), 'Made in 2018', Victoria, 'A pencil drawing of a skull'),
-		
   ];
-	
-
   gallery = new Gallery(photos);
-}
-
-
+	}
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
-	background(100);
-	frameRate(5);
+	background(186, 169, 128);
+	frameRate(8);
 }
 
 function draw() {
@@ -78,43 +80,74 @@ function draw() {
   }
 }
 
-
 function showGallery() {
-  gallery.photos.forEach((photo, i) => {
-    image(photo.image, 20 + (i % ncol)*horizspace, 60, 140, 200);
-    let button = createButton(photo.name);
-    button.position(20 + (i % ncol)*horizspace, 20)
+	  currentState = SHOW_GALLERY
+	
+    gallery.photos.forEach((photo, i) => {
+    image(photo.image, 20 + (i % ncol)*horizspace, 150, 140, 200);
+		
+    button = createButton(photo.name);
+    button.position(20 + (i % ncol)*horizspace, 110)
     button.mousePressed(() => {photoSelected(photo)})
+			
+		noFill();
+		stroke(255)
+		strokeWeight(10)
+		rect(20 + (i % ncol)*horizspace, 150, 140, 200)
+
   })
 }
 
 function photoSelected(photo) {
-  selectedPhoto = photo;
-  currentState = SHOW_PHOTO;
+   selectedPhoto = photo;
+   currentState = SHOW_PHOTO;
 }
 
 function showPhoto() {
-	clear();
-	background (100)
-	text(selectedPhoto.description,170, 350);
-	text(selectedPhoto.dateCreated, 170, 370)
-  image(selectedPhoto.image, 200, 120, 140, 200)
-  let button = createButton(selectedPhoto.artist.name)
-  button.position(170, 380)
-  button.mousePressed(artistClicked)
+	 clear();
+	 background(186, 169, 128);
+	 button.hide();
 	
+	 strokeWeight(1)
+	 textFont('Georgia');
+	 text(selectedPhoto.description,500, 450);
+	 text(selectedPhoto.dateCreated, 500, 470)
+	 
+	 tint(w, bl);
+   image(selectedPhoto.image, 500, 220, 140, 200)
+	 bl = bl + 45
+	
+   button = createButton(selectedPhoto.artist.name)
+   button.position(500, 480)
+   button.mousePressed(artistClicked, mySound)
+	
+  let back= createButton('back')
+	 back.position(0, 0)
+	 back.mousePressed(backPressed)
 }
 
 function artistClicked() {
-  currentState = SHOW_ARTIST;
+   currentState = SHOW_ARTIST;
 }
 
 function showArtist() {
-  let artist = selectedPhoto.artist;
 	clear();
-	background(100)
-  image(artist.image,170 , 110, 120, 200);
-  text(artist.name, 170, 320);
-	text(artist.bio, 170, 340);
-	text(artist.birthday, 170, 360);
+	background(186, 169, 128);
+
+let artist = selectedPhoto.artist;
+	
+  image(artist.image,500 ,210, 140, 200);
+	
+	textFont('Georgia');
+	text(artist.name, 500, 430);
+	text(artist.bio, 500, 450);
+	text(artist.birthday, 500, 470);
+	stroke(255)
+
+}
+
+function backPressed() {
+	clear();
+	button.hide();
+	currentState = SHOW_GALLERY;
 }
