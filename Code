@@ -11,14 +11,7 @@ const ncol = 5
 const i = 300
 let w = 255
 let bl = 0
-let p = 255
-let l = 0
-let mySound;
 
-
-function preload() {
-  mySound = loadSound('mixkit-arcade-game-jump-coin-216.wav');
-}
 
 class Gallery {
   constructor(photos) {
@@ -80,7 +73,7 @@ function draw() {
   }
 }
 
-function showGallery() {
+function showGallery() {	
 	  currentState = SHOW_GALLERY
 	
     gallery.photos.forEach((photo, i) => {
@@ -94,20 +87,21 @@ function showGallery() {
 		stroke(255)
 		strokeWeight(10)
 		rect(20 + (i % ncol)*horizspace, 150, 140, 200)
-
   })
 }
 
 function photoSelected(photo) {
    selectedPhoto = photo;
    currentState = SHOW_PHOTO;
+
+	 bl = 0
 }
 
 function showPhoto() {
 	 clear();
 	 background(186, 169, 128);
 	 button.hide();
-	
+
 	 strokeWeight(1)
 	 textFont('Georgia');
 	 text(selectedPhoto.description,500, 450);
@@ -119,7 +113,7 @@ function showPhoto() {
 	
    button = createButton(selectedPhoto.artist.name)
    button.position(500, 480)
-   button.mousePressed(artistClicked, mySound)
+   button.mousePressed(artistClicked)
 	
   let back= createButton('back')
 	 back.position(0, 0)
@@ -128,6 +122,7 @@ function showPhoto() {
 
 function artistClicked() {
    currentState = SHOW_ARTIST;
+		bl = 0
 }
 
 function showArtist() {
@@ -136,14 +131,15 @@ function showArtist() {
 
 let artist = selectedPhoto.artist;
 	
+	tint(w, bl);
   image(artist.image,500 ,210, 140, 200);
-	
+	bl = bl + 45
+
 	textFont('Georgia');
 	text(artist.name, 500, 430);
 	text(artist.bio, 500, 450);
 	text(artist.birthday, 500, 470);
 	stroke(255)
-
 }
 
 function backPressed() {
